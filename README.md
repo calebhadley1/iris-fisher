@@ -4,7 +4,14 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Analysis & ML on the Fisher Iris Dataset
+Full Stack Machine Learning on the Fisher Iris Dataset.
+- Exploratory Data Analysis
+- Preprocessing
+- Model Training
+- Model Selection and Evaluation
+- Model Persistence
+- Model Deployment via FastAPI (TODO)
+
 
 ## Project Organization
 
