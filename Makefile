@@ -63,6 +63,11 @@ create_environment:
 data: requirements
 	$(PYTHON_INTERPRETER) iris_fisher/dataset.py
 
+## Start FastAPI app
+.PHONY: api
+api: requirements
+	fastapi dev iris_fisher/api/main.py
+
 
 #################################################################################
 # Self Documenting Commands                                                     #

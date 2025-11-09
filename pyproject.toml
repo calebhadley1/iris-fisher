@@ -16,6 +16,7 @@ classifiers = [
     
 ]
 dependencies = [
+    "fastapi[standard]",
     "loguru",
     "pandas",
     "pip",
