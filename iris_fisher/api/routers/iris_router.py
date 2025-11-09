@@ -2,7 +2,7 @@ from pathlib import Path
 import pickle
 from sys import prefix
 from fastapi import APIRouter
-from iris_fisher.api.schemas.iris import IrisIn
+from iris_fisher.api.schemas.iris import IrisIn, IrisOut
 from iris_fisher.config import MODELS_DIR
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/v1/iris")
 
 
 @router.post("/predict")
-def predict(iris_in: IrisIn):
+def predict(iris_in: IrisIn) -> IrisOut:
     logger.info(f"Received Request with params: {iris_in}")
 
     logger.info("Create DataFrame from Input")
@@ -37,4 +37,4 @@ def predict(iris_in: IrisIn):
     logger.info("Transforming Encoded Prediction into readable Species")
     pred = encoder.inverse_transform(pred_encoded)
     logger.info(f"Predicted Species: {pred}")
-    return {"pred": pred[0]}
+    return IrisOut(species=pred[0])
