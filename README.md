@@ -46,7 +46,7 @@ Full Stack Machine Learning on the Fisher Iris Dataset.
 │
 ├── setup.cfg          <- Configuration file for flake8
 │
-└── iris_fisher   <- Source code for use in this project.
+└── iris_fisher        <- Source code for use in this project.
     │
     ├── __init__.py             <- Makes iris_fisher a Python module
     │
@@ -59,7 +59,7 @@ Full Stack Machine Learning on the Fisher Iris Dataset.
     ├── api
     │   ├── routers             <- API Routers
     │   ├── schemas             <- Pydantic Schemas
-    │   main.py          <- FastAPI entry point
+    │   main.py                 <- FastAPI entry point
     ├── modeling                
     │   ├── __init__.py 
     │   ├── predict.py          <- Code to run model inference with trained models          
