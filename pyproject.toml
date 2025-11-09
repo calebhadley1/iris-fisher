@@ -17,9 +17,11 @@ classifiers = [
 ]
 dependencies = [
     "loguru",
+    "pandas",
     "pip",
     "python-dotenv",
     "ruff",
+    "scikit-learn",
     "tqdm",
     "typer",
 ]
