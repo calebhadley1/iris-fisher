@@ -10,7 +10,7 @@ Full Stack Machine Learning on the Fisher Iris Dataset.
 - Model Training
 - Model Selection and Evaluation
 - Model Persistence
-- Model Deployment via FastAPI (TODO)
+- Model Deployment via FastAPI
 
 
 ## Project Organization
@@ -56,6 +56,10 @@ Full Stack Machine Learning on the Fisher Iris Dataset.
     │
     ├── features.py             <- Code to create features for modeling
     │
+    ├── api
+    │   ├── routers             <- API Routers
+    │   ├── schemas             <- Pydantic Schemas
+    │   main.py          <- FastAPI entry point
     ├── modeling                
     │   ├── __init__.py 
     │   ├── predict.py          <- Code to run model inference with trained models          
