@@ -63,6 +63,16 @@ create_environment:
 data: requirements
 	$(PYTHON_INTERPRETER) iris_fisher/dataset.py
 
+## Generate features from dataset
+.PHONY: features
+features: requirements
+	$(PYTHON_INTERPRETER) iris_fisher/features.py
+
+## Train models from features and labels
+.PHONY: train
+train: requirements
+	$(PYTHON_INTERPRETER) iris_fisher/modeling/train.py
+
 ## Start FastAPI app
 .PHONY: api
 api: requirements
