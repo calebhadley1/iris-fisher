@@ -1,13 +1,12 @@
 from pathlib import Path
-
-from loguru import logger
-from tqdm import tqdm
-import typer
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 import pickle
 
-from iris_fisher.config import PROCESSED_DATA_DIR, MODELS_DIR
+from loguru import logger
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+import typer
+
+from iris_fisher.config import MODELS_DIR, PROCESSED_DATA_DIR
 
 app = typer.Typer()
 
@@ -24,15 +23,15 @@ def main(
     logger.info("Generating features from dataset...")
 
     df = pd.read_csv(input_path)
-    
+
     # Species has the following unique vals. We want to encode them as numerical values
     # array(['Iris-setosa', 'Iris-versicolor', 'Iris-virginica'], dtype=object)
     encoder = LabelEncoder()
-    df['species_encoded'] = encoder.fit_transform(df['species'])
+    df["species_encoded"] = encoder.fit_transform(df["species"])
 
     df.to_csv(output_path, index=False)
 
-    with open(encoder_path, 'wb') as f:
+    with open(encoder_path, "wb") as f:
         pickle.dump(encoder, f)
 
     logger.success("Features generation complete.")

@@ -1,10 +1,9 @@
 from pathlib import Path
 
 from loguru import logger
-from tqdm import tqdm
-
-import typer
 import pandas as pd
+import typer
+
 from iris_fisher.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
 
 app = typer.Typer()
@@ -20,14 +19,11 @@ def main(
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
     logger.info("Processing dataset...")
 
-    column_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species']
-    df = pd.read_csv(
-        input_path, 
-        names=column_names
-    )
+    column_names = ["sepal_length", "sepal_width", "petal_length", "petal_width", "species"]
+    df = pd.read_csv(input_path, names=column_names)
 
     df.to_csv(output_path, index=False)
-    
+
     logger.success("Processing dataset complete.")
     # -----------------------------------------
 
