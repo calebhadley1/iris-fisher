@@ -42,11 +42,11 @@ def main(
     Logistic Regression: Another standard method used for classification tasks on this dataset.
     Neural Networks: Both basic and more complex deep learning models, such as Multi-Layer Perceptrons (MLPs), have been successfully applied. 
     """
-    # X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
     pipeline = make_pipeline(StandardScaler(), LogisticRegression())
     scores = cross_val_score(pipeline, X, y, cv=5)
     logger.info(f"Cross Validation Scores: {scores}")
 
+    # TODO: Can I get outputted model from cross val instead of having these extra lines with manual train test split?
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
     pipeline.fit(X_train, y_train)  # apply scaling on training data
     score = pipeline.score(X_test, y_test)
