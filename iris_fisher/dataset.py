@@ -6,8 +6,8 @@ from sklearn.preprocessing import LabelEncoder
 
 import typer
 import pandas as pd
-
-from iris_fisher.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
+import pickle
+from iris_fisher.config import PROCESSED_DATA_DIR, RAW_DATA_DIR, MODELS_DIR
 
 app = typer.Typer()
 
@@ -16,6 +16,7 @@ app = typer.Typer()
 def main(
     # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
     input_path: Path = RAW_DATA_DIR / "iris/iris.data",
+    encoder_path: Path = MODELS_DIR / "encoder.pkl",
     output_path: Path = PROCESSED_DATA_DIR / "iris.csv",
     # ----------------------------------------------
 ):
@@ -35,6 +36,9 @@ def main(
 
     df.to_csv(output_path, index=False)
 
+    with open(encoder_path, 'wb') as f:
+        pickle.dump(encoder, f)
+    
     logger.success("Processing dataset complete.")
     # -----------------------------------------
 
