@@ -4,7 +4,7 @@ import pickle
 from loguru import logger
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.model_selection import cross_val_score, train_test_split, cross_validate
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 import typer
@@ -12,6 +12,23 @@ import typer
 from iris_fisher.config import MODELS_DIR, PROCESSED_DATA_DIR
 
 app = typer.Typer()
+
+def train_log_reg(X, y, model_path):
+    logger.info("Training Logistic Regression...")
+
+    pipeline = make_pipeline(StandardScaler(), LogisticRegression())
+    results = cross_validate(pipeline, X, y, cv=5, scoring=['accuracy', 'f1_macro'], return_estimator=False)
+    logger.info(f"Cross Validation Results {results}")
+    logger.info("%0.2f accuracy with a standard deviation of %0.2f" % (results['test_accuracy'].mean(), results['test_accuracy'].std()))
+    logger.info("%0.2f macro f1 with a standard deviation of %0.2f" % (results['test_f1_macro'].mean(), results['test_f1_macro'].std()))
+
+    # Retrain model on entire dataset
+    pipeline.fit(X, y) 
+
+    with open(model_path, "wb") as f:
+        pickle.dump(pipeline, f)
+    
+    logger.info(f"Logistic Regression Training Complete. Pickle can be found at: {model_path}")
 
 
 @app.command()
@@ -24,16 +41,14 @@ def main(
     # -----------------------------------------
 ):
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Training some model...")
+    logger.info("Training models...")
 
     df = pd.read_csv(features_path)
 
     X = df.drop(["species", "species_encoded"], axis=1)
     y = df["species_encoded"]
 
-    # TODO: explore cross validation compared to this approach. Right now we ensure deterministic training set with `random_state`
     """
-    TODO: explore cross validation compared to this approach. Right now we ensure deterministic training set with `random_state`
     TODO: Try the following models:
     Linear Discriminant Analysis (LDA): This is the method Ronald Fisher originally used in his 1936 paper to develop a linear discriminant model.
     K-Nearest Neighbors (KNN): Often recommended for beginners due to its simplicity and high effectiveness on this dataset.
@@ -42,20 +57,7 @@ def main(
     Logistic Regression: Another standard method used for classification tasks on this dataset.
     Neural Networks: Both basic and more complex deep learning models, such as Multi-Layer Perceptrons (MLPs), have been successfully applied. 
     """
-    pipeline = make_pipeline(StandardScaler(), LogisticRegression())
-    scores = cross_val_score(pipeline, X, y, cv=5)
-    logger.info(f"Cross Validation Scores: {scores}")
-
-    # TODO: Can I get outputted model from cross val instead of having these extra lines with manual train test split?
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
-    pipeline.fit(X_train, y_train)  # apply scaling on training data
-    score = pipeline.score(X_test, y_test)
-    logger.info(
-        f"Model Score {score}"
-    )  # apply scaling on testing data, without leaking training data.
-
-    with open(model_path, "wb") as f:
-        pickle.dump(pipeline, f)
+    train_log_reg(X, y, model_path)
 
     logger.success("Modeling training complete.")
     # -----------------------------------------
