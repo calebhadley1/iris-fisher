@@ -19,6 +19,7 @@ dependencies = [
     "fastapi[standard]",
     "loguru",
     "pandas",
+    "pydantic",
     "pip",
     "python-dotenv",
     "ruff",
